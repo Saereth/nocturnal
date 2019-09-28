@@ -1,0 +1,59 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "https://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+
+version = modVersion
+group = "com.breakinblocks.nocturnal" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "nocturnal"
+
+sourceCompatibility = targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
+
+minecraft {
+    version = "${mc_version}-${forge_version}"
+    runDir = "run"
+    mappings = "${mappings_version}"
+	replace "@VERSION@", project.version
+    replaceIn "Constants.java"
+    clientRunArgs += "--username=NocturnalDev"
+}
+
+repositories {
+    maven { url "http://dvs1.progwml6.com/files/maven" } // JEI
+    maven { url "http://tehnut.info/maven" } // BM
+    maven { url "http://maven.tterrag.com/" } // TOP
+    maven { url "http://maven.blamejared.com/" } // CT
+    maven { url "https://minecraft.curseforge.com/api/maven/" } // TC
+}
+
+dependencies {
+  deobfCompile "mezz.jei:jei_${mc_version}:${jei_version}"
+    deobfCompile "mcp.mobius.waila:Hwyla:${hwyla_version}"
+    deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.+"
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+                
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+        
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+	rename '(.+_at.cfg)', 'META-INF/$1'
+}

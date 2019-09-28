@@ -1,0 +1,16 @@
+[
+{
+  "modid": "nocturnal",
+  "name": "Nocturnal",
+  "description": "Tweaks, Items and Hackery for FTB Nocturne.",
+  "version": "1.0",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/Saereth/nocturnal",
+  "updateUrl": "",
+  "authorList": ["Saereth"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": ["crafttweaker2"]
+}
+]
