@@ -44,7 +44,6 @@ dependencies {
 	deobfCompile "mezz.jei:jei_${mc_version}:${jei_version}:api"
     deobfCompile "mcp.mobius.waila:Hwyla:${hwyla_version}"
     deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.+"
-	deobfCompile "com.azanor.baubles:Baubles:1.12-1.5.2"
 }
 
 
