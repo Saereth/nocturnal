@@ -34,13 +34,19 @@ repositories {
     maven { url "http://maven.tterrag.com/" } // TOP
     maven { url "http://maven.blamejared.com/" } // CT
     maven { url "https://minecraft.curseforge.com/api/maven/" } // TC
+    maven { url = "https://minecraft.curseforge.com/api/maven/" }
+    maven { url = "http://maven.thiakil.com" }
+
 }
 
 dependencies {
-  deobfCompile "mezz.jei:jei_${mc_version}:${jei_version}"
+
+	deobfCompile "mezz.jei:jei_${mc_version}:${jei_version}:api"
     deobfCompile "mcp.mobius.waila:Hwyla:${hwyla_version}"
     deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.+"
+	deobfCompile "com.azanor.baubles:Baubles:1.12-1.5.2"
 }
+
 
 processResources {
     inputs.property "version", project.version
@@ -57,3 +63,4 @@ processResources {
     }
 	rename '(.+_at.cfg)', 'META-INF/$1'
 }
+

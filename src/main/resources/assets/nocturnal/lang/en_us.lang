@@ -1,0 +1,6 @@
+##BLOCKS##
+tile.nocturnal:jar_flux.name=Flux Attractor Jar
+
+##ITEMS##
+item.nocturnal:warp_charm.name=Warp Charm
+item.nocturnal:warp_charm.tooltip=Protects against your corrupting effects on the world
