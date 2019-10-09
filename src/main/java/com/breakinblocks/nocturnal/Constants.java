@@ -19,11 +19,12 @@ public class Constants {
 
 
 	public static class Mod {
-		public static final String DEPEND  = "after:theoneprobe;";
 		public static final String MODID   = "nocturnal";
 		public static final String DOMAIN  = MODID.toLowerCase(Locale.ENGLISH) + ":";
 		public static final String NAME    = "Nocturnal";
 		public static final String VERSION = "1";
+		public static final String DEPEND = "required-after:bloodmagic@[1.12.2-2.3.0,);required-after:guideapi;required-after:thaumcraft;";
+	            
 	}
 
 }

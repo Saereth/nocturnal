@@ -1,5 +1,0 @@
-{
-    "forge_marker": 1,
-    "defaults": { "model": "nocturnal:jar_flux", "transform": "forge:default-block" },
-    "variants": { "inventory":[{}], "normal":[{}] }
-}
