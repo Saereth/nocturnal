@@ -41,12 +41,15 @@ repositories {
 
 dependencies {
 
+	compile files('libs/')
     deobfCompile "mcp.mobius.waila:Hwyla:${hwyla_version}"
     deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.+"
 	deobfCompile "com.azanor.baubles:Baubles:1.12-1.5.2"
     deobfCompile "mezz.jei:jei_${mc_version}:${jei_version}:api"
     runtime "mezz.jei:jei_${mc_version}:${jei_version}"
 	deobfCompile "thaumcraft:Thaumcraft:${mc_version}:${thaumcraft_version}"
+    deobfCompile "com.wayoftime.bloodmagic:BloodMagic:${mc_version}-${bloodmagic_version}"
+    deobfCompile "info.amerifrance.guideapi:Guide-API:${minecraft_root_version}-${guideapi_version}"
 
 }
 
