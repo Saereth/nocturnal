@@ -1,16 +1,15 @@
 package com.breakinblocks.nocturnal.items;
 
-import org.apache.logging.log4j.Logger;
-
 
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import baubles.api.render.IRenderBauble;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Enchantments;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import thaumcraft.api.aura.AuraHelper;
 
 
@@ -50,13 +49,16 @@ public class ItemWarpCharm extends ItemBase implements IBauble, IRenderBauble {
 		}
 	}
 
-
-
-
 	@Override
 	public void onPlayerBaubleRender(ItemStack stack, EntityPlayer player, RenderType type, float partialTicks) {
-		// TODO Auto-generated method stub
-		
 	}
+
+
+	@SideOnly(Side.CLIENT)
+	public void initModel() {
+	 //   ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
+	}
+	
+	
 
 }

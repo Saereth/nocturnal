@@ -1,30 +1,41 @@
 package com.breakinblocks.nocturnal;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 import com.breakinblocks.nocturnal.items.ItemWarpCharm;
 
-import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
-import net.minecraftforge.registries.IForgeRegistry;
+
 
 @Mod.EventBusSubscriber(modid = Constants.Mod.MODID)
-@ObjectHolder(Constants.Mod.MODID)
 public class NocturnalContent {
 
-	@SubscribeEvent
-	public static void registerBlocks(final RegistryEvent.Register<Block> event) {
-		
-	}
+	public static List<Item> items;
 	
 	@SubscribeEvent
+	@SuppressWarnings("unused")
 	public static void registerItems(RegistryEvent.Register<Item> event) {
-		IForgeRegistry<Item> registry = event.getRegistry();
-		registry.register(new ItemWarpCharm());
-		
+		items = new ArrayList<>();
+
+
+
+		setupItem(new ItemWarpCharm(), "warp_charm");
+		items.forEach(event.getRegistry()::register);
 	}
+
+
+	private static void setupItem(Item item, String name) {
+		if (item.getRegistryName() == null)
+			item.setRegistryName(name);
+		item.setCreativeTab(Nocturnal.nocturnalTab);
+		items.add(item);
+	}
+
 	
 
 	
