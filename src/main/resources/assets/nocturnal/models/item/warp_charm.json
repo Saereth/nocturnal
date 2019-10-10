@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "nocturnal:items/warp_disk"
+    "layer0": "nocturnal:items/warp_charm"
   }
 }

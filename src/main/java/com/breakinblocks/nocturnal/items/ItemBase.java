@@ -12,7 +12,6 @@ public class ItemBase extends Item {
 		this.setRegistryName(new ResourceLocation(Constants.Mod.MODID, name));	
 		this.setCreativeTab(Nocturnal.nocturnalTab);
 		this.setTranslationKey(name);
-		System.out.println("New item constructed. Registry name: " + getRegistryName());
 	}
 
 }

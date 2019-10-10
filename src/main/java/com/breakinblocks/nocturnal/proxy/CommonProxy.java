@@ -25,13 +25,5 @@ public class CommonProxy {
 	}
 
 	
-	public void tryHandleItemModel(Item item) {
-	}
 
-	public void tryHandleBlockModel(Block block) {
-	}
-	
-		public boolean fancyGraphics(){
-		return true;
-	}
 }
