@@ -1,6 +1,8 @@
 package com.breakinblocks.nocturnal.items;
 
 
+import com.breakinblocks.nocturnal.NocturnalConfig;
+
 import baubles.api.BaubleType;
 import baubles.api.IBauble;
 import baubles.api.render.IRenderBauble;
@@ -16,7 +18,7 @@ public class ItemWarpCharm extends ItemBase implements IBauble, IRenderBauble {
 	public ItemWarpCharm() {
 		super("warp_charm");
 		this.setMaxStackSize(1);
-		this.setMaxDamage(50);
+		this.setMaxDamage(NocturnalConfig.general.warpCharmDamage);
 		this.canRepair = false;
 	}
 
@@ -25,7 +27,7 @@ public class ItemWarpCharm extends ItemBase implements IBauble, IRenderBauble {
 	public EnumRarity getRarity(ItemStack itemstack) {
 		return EnumRarity.RARE;
 	}
-
+	
 	@Override
 	public BaubleType getBaubleType(ItemStack itemstack) {
 		return BaubleType.CHARM;

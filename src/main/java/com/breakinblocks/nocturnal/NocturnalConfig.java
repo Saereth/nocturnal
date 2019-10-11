@@ -20,9 +20,15 @@ public class NocturnalConfig {
 	}
 
 	public static class ConfigGeneral {
-		@Config.Comment({"Determines the amount of damage the warp charm can take before breaking. -1 for unbreakable, otherwise 1~2147483647"})
+		@Config.Comment({"Determines the amount of damage the warp charm can take before breaking. -1 for unbreakable, otherwise 1~2147483647. Default: 50"})
 		public int     warpCharmDamage = 50;
+		
+		@Config.Comment({"Determines the speed at which a player causes flux in a chunk, once per n ticks. Default: 600"})
+		public int     fluxPollutionTicktime = 600;
 
+		
+		@Config.Comment({"Chance for charm to be damaged when preventing flux from the player. 1 out of n chance. Default: 5"})
+		public int     charmDamageChance = 5;
 	}
 
 	public enum Mode {

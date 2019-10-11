@@ -7,6 +7,7 @@ import java.util.Random;
 
 import com.breakinblocks.nocturnal.Constants;
 import com.breakinblocks.nocturnal.Nocturnal;
+import com.breakinblocks.nocturnal.NocturnalConfig;
 
 import baubles.api.BaublesApi;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,11 +39,9 @@ public class CorruptionHandler {
 
 	            int ticks = (SERVER_TICKS.get(dim));
 	            Random rand = new Random();	
-
             
-	            if (ticks % 600 == 0) {
-	            	//do stuff with corruption every 30 seconds
-	            	//System.out.print("Server Tick Test: " + '\n');
+	            if (ticks % NocturnalConfig.general.fluxPollutionTicktime == 0) {
+	            	System.out.println("Tick occured : " + NocturnalConfig.general.fluxPollutionTicktime);
 	            	List<EntityPlayer> Players = event.world.playerEntities;
 	            	List<BlockPos> UpdateChunks = new ArrayList<BlockPos>();
 	            	ItemStack bauble;
@@ -54,8 +53,7 @@ public class CorruptionHandler {
 	        			if (slot > 0) {
 	        				IItemHandler baublesInv = BaublesApi.getBaublesHandler(Players.get(i));
 	        				bauble = baublesInv.getStackInSlot(slot);
-	        				
-	        				if (rand.nextInt(4) == 0) { //bauble randomly takes damage
+	        				if (rand.nextInt(NocturnalConfig.general.charmDamageChance) == 0) { //bauble randomly takes damage
 	        					bauble.damageItem(1, Players.get(i));
 	        					event.world.playSound(Players.get(i), Players.get(i).getPosition(), SoundsTC.heartbeat, SoundCategory.PLAYERS, .5F, 1F);
 	        				}
@@ -71,7 +69,6 @@ public class CorruptionHandler {
 	        		int pollutionAmount = rand.nextInt(3);
 	        		
 	        		for (int z = 0; z < UpdateChunks.size(); z++) {
-	        			//event.world.getChunk(UpdateChunks.get(z)).
 	        				
 	        			if (AuraHelper.getFlux(event.world, UpdateChunks.get(z)) < 1000){ //Time to pollute the chunks
 	    					
