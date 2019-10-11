@@ -11,12 +11,14 @@ import com.breakinblocks.nocturnal.Nocturnal;
 import baubles.api.BaublesApi;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.items.IItemHandler;
 import thaumcraft.api.aura.AuraHelper;
+import thaumcraft.common.lib.SoundsTC;
 
 @Mod.EventBusSubscriber(modid = Constants.Mod.MODID)
 public class CorruptionHandler {
@@ -55,6 +57,7 @@ public class CorruptionHandler {
 	        				
 	        				if (rand.nextInt(4) == 0) { //bauble randomly takes damage
 	        					bauble.damageItem(1, Players.get(i));
+	        					event.world.playSound(Players.get(i), Players.get(i).getPosition(), SoundsTC.heartbeat, SoundCategory.PLAYERS, .5F, 1F);
 	        				}
 	        			}
 	        			else {
