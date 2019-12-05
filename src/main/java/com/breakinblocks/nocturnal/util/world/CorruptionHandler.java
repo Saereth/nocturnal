@@ -18,8 +18,11 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.chunk.Chunk;
 import thaumcraft.api.aura.AuraHelper;
 import thaumcraft.common.lib.SoundsTC;
+import net.minecraft.world.biome.Biome;
 
 @Mod.EventBusSubscriber(modid = Constants.Mod.MODID)
 public class CorruptionHandler {
@@ -41,7 +44,7 @@ public class CorruptionHandler {
 	            Random rand = new Random();	
             
 	            if (ticks % NocturnalConfig.general.fluxPollutionTicktime == 0) {
-	            	System.out.println("Tick occured : " + NocturnalConfig.general.fluxPollutionTicktime);
+	            	//System.out.println("Tick occured : " + NocturnalConfig.general.fluxPollutionTicktime);
 	            	List<EntityPlayer> Players = event.world.playerEntities;
 	            	List<BlockPos> UpdateChunks = new ArrayList<BlockPos>();
 	            	ItemStack bauble;
@@ -67,13 +70,43 @@ public class CorruptionHandler {
 	                }
 	        		
 	        		int pollutionAmount = rand.nextInt(3);
-	        		
+    				Biome biome;
+					int size = 7;
+					int rad = size / 2;
+
 	        		for (int z = 0; z < UpdateChunks.size(); z++) {
-	        				
-	        			if (AuraHelper.getFlux(event.world, UpdateChunks.get(z)) < 1000){ //Time to pollute the chunks
-	    					
-	    					AuraHelper.polluteAura(event.world, UpdateChunks.get(z), pollutionAmount, true);   
-	    					
+	    				BlockPos updatePos = UpdateChunks.get(z);	        				
+	        			if (AuraHelper.getFlux(event.world, updatePos) < 1000){ //Time to pollute the chunks
+	    					AuraHelper.polluteAura(event.world, updatePos, pollutionAmount, true);   
+						if (AuraHelper.getFlux(event.world, updatePos) > 300) {
+	    					biome = event.world.getBiome(updatePos);
+						System.out.println("Increased Flux in biome: " + biome.getBiomeName());
+					
+						
+						for (int ix = updatePos.getX() - rad; ix <= updatePos.getX() + rad; ++ix) {
+							for (int iz = updatePos.getZ() - rad; iz <= updatePos.getZ() + rad; ++iz) {
+								int relBlockX = ix & 15;
+								int relBlockZ = iz & 15;
+
+								
+								//biomeByte = 
+								/*Chunk chunk = event.world.getChunk(updatePos);
+								byte[] byteArray = chunk.getBiomeArray();
+								byte currentByte = byteArray[relBlockZ << 4 | relBlockX];
+								if (currentByte != biomeByte) {
+									byteArray[relBlockZ << 4 | relBlockX] = biomeByte;
+									chunk.setBiomeArray(byteArray);
+									chunk.setModified(true);
+								*/
+								}
+							}
+						
+							if (biome.getBiomeName() == "Plains") {
+
+							}
+						}
+
+	    				
 	    				}
 	        			
 	        		}
