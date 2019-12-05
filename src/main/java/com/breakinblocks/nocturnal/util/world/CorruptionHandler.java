@@ -10,18 +10,27 @@ import com.breakinblocks.nocturnal.Nocturnal;
 import com.breakinblocks.nocturnal.NocturnalConfig;
 
 import baubles.api.BaublesApi;
+import mcp.mobius.waila.handlers.NetworkHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.management.PlayerChunkMap;
+import net.minecraft.server.management.PlayerChunkMapEntry;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import thaumcraft.api.aura.AuraHelper;
 import thaumcraft.common.lib.SoundsTC;
+import thaumcraft.common.lib.network.misc.PacketBiomeChange;
 import net.minecraft.world.biome.Biome;
 
 @Mod.EventBusSubscriber(modid = Constants.Mod.MODID)
@@ -71,40 +80,22 @@ public class CorruptionHandler {
 	        		
 	        		int pollutionAmount = rand.nextInt(3);
     				Biome biome;
-					int size = 7;
-					int rad = size / 2;
+    				Biome defiledPlainsBiome = ForgeRegistries.BIOMES.getValue(new ResourceLocation("defiledlands", "plains_defiled"));
 
 	        		for (int z = 0; z < UpdateChunks.size(); z++) {
 	    				BlockPos updatePos = UpdateChunks.get(z);	        				
 	        			if (AuraHelper.getFlux(event.world, updatePos) < 1000){ //Time to pollute the chunks
-	    					AuraHelper.polluteAura(event.world, updatePos, pollutionAmount, true);   
-						if (AuraHelper.getFlux(event.world, updatePos) > 300) {
-	    					biome = event.world.getBiome(updatePos);
-						System.out.println("Increased Flux in biome: " + biome.getBiomeName());
-					
+		    					AuraHelper.polluteAura(event.world, updatePos, pollutionAmount, true);   
+							if (AuraHelper.getFlux(event.world, updatePos) > 300) {
+		    					biome = event.world.getBiome(updatePos);
+							System.out.println("Increased Flux in biome: " + biome.getBiomeName() + " New biome is set to: " + defiledPlainsBiome.getBiomeName());
 						
-						for (int ix = updatePos.getX() - rad; ix <= updatePos.getX() + rad; ++ix) {
-							for (int iz = updatePos.getZ() - rad; iz <= updatePos.getZ() + rad; ++iz) {
-								int relBlockX = ix & 15;
-								int relBlockZ = iz & 15;
-
-								
-								//biomeByte = 
-								/*Chunk chunk = event.world.getChunk(updatePos);
-								byte[] byteArray = chunk.getBiomeArray();
-								byte currentByte = byteArray[relBlockZ << 4 | relBlockX];
-								if (currentByte != biomeByte) {
-									byteArray[relBlockZ << 4 | relBlockX] = biomeByte;
-									chunk.setBiomeArray(byteArray);
-									chunk.setModified(true);
-								*/
+								if (biome.getBiomeName() == "Plains") {
+		
 								}
-							}
-						
-							if (biome.getBiomeName() == "Plains") {
 
+								setBiome(event.world, defiledPlainsBiome, updatePos);
 							}
-						}
 
 	    				
 	    				}
@@ -120,5 +111,33 @@ public class CorruptionHandler {
 	    
 	    }
 
+public static void setBiome(World world, Biome biome, BlockPos pos) {
+			Chunk chunk = world.getChunk(pos);
+
+			int i = pos.getX() & 15;
+			int j = pos.getZ() & 15;
+
+			byte id = (byte) Biome.getIdForBiome(biome);
+
+			byte b = chunk.getBiomeArray()[j << 4 | i];
+
+			if (b == id) return;
+
+			chunk.getBiomeArray()[j << 4 | i] = id;
+			chunk.markDirty();
+
+			if (world instanceof WorldServer) {
+				PlayerChunkMap playerChunkMap = ((WorldServer) world).getPlayerChunkMap();
+				int chunkX = pos.getX() >> 4;
+				int chunkZ = pos.getZ() >> 4;
+
+				PlayerChunkMapEntry entry = playerChunkMap.getEntry(chunkX, chunkZ);
+				if (entry != null) {
+					//packetstuff
+					//entry.sendPacket(NetworkHandler. get(Side.SERVER).generatePacketFrom(new PacketBiomeChange()));
+				}
+			}
+		}
+	    
 
 }
