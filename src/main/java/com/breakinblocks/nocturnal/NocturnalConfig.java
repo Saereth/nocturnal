@@ -23,9 +23,18 @@ public class NocturnalConfig {
 		@Config.Comment({"Determines the amount of damage the warp charm can take before breaking. -1 for unbreakable, otherwise 1~2147483647. Default: 50"})
 		public int     warpCharmDamage = 50;
 		
-		@Config.Comment({"Determines the speed at which a player causes flux in a chunk, once per n ticks. Default: 600"})
+		@Config.Comment({"Determines the speed at which a player causes flux in a chunk, once per n ticks. Default: 600. This is still nescesary for flux updates even if player flux generation is off."})
 		public int     fluxPollutionTicktime = 600;
 
+		@Config.Comment({"Setting this to false will cause players to no longer generate flux. Defilement can still occur if flux is brought above the set threshold by standard TC means however."})
+		public boolean playersProduceFlux = true;
+
+		@Config.Comment({"Setting this to false will defilement to never happen under any circumstances."})
+		public boolean enableDefilement = true;
+
+		
+		@Config.Comment({"The amount of flux in a chunk before blocks and biomes start converting to defiled land. Default: 300"})
+		public int     minDefileFlux = 300;
 		
 		@Config.Comment({"Chance for charm to be damaged when preventing flux from the player. 1 out of n chance. Default: 5"})
 		public int     charmDamageChance = 5;

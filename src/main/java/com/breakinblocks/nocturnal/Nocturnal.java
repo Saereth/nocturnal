@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -34,7 +35,8 @@ public class Nocturnal
 	public static Nocturnal instance;
 	@SidedProxy(clientSide = "com.breakinblocks.nocturnal.proxy.ClientProxy", serverSide = "com.breakinblocks.nocturnal.proxy.ServerProxy")
 	public static CommonProxy proxy;
-
+	public static boolean thaumcraftLoaded = false;
+	public static boolean defiledLoaded = false;
 	public static CreativeTabs nocturnalTab = new CreativeTabs("nocturnal") {
 
 		@Override
@@ -51,6 +53,8 @@ public class Nocturnal
     {
         logger = event.getModLog();
         proxy.preInit(event);
+        thaumcraftLoaded = Loader.isModLoaded("thaumcraft");
+        defiledLoaded = Loader.isModLoaded("defiledlands");
     }
 
     @EventHandler
