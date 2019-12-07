@@ -14,7 +14,9 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.management.PlayerChunkMap;
 import net.minecraft.server.management.PlayerChunkMapEntry;
 import net.minecraft.util.ResourceLocation;
@@ -51,6 +53,44 @@ public class CorruptionHandler {
 		public static final IBlockState corruptedSand = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("defiledlands", "sand_defiled")).getDefaultState();
 		private static final HashMap<Integer, Integer> SERVER_TICKS = new HashMap<>();
 		public static final String DATA_NAME = "NocturnalTimer";
+		
+		@SubscribeEvent
+		public void onPlayerTick(TickEvent.PlayerTickEvent event) {
+			System.out.println("player tick");
+			if (event.player.world.getWorldTime() % 100 == 0) { //dont want to run this too often
+				float currentFlux = AuraHelper.getFlux(event.player.world, event.player.getPosition());
+				System.out.println("Checking for Buffs, current flux is : " + currentFlux);
+				if (currentFlux > NocturnalConfig.general.minFluxForRegen && NocturnalConfig.general.minFluxForRegen != 1)
+					event.player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 200, 1));
+				if (currentFlux > NocturnalConfig.general.minFluxForStrength && NocturnalConfig.general.minFluxForStrength != 1)
+					event.player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 200, 1));
+				if (currentFlux > NocturnalConfig.general.minFluxForAbsorption && NocturnalConfig.general.minFluxForAbsorption != 1)
+					event.player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 200, 3));
+				if (currentFlux > NocturnalConfig.general.minFluxForHealthBoost && NocturnalConfig.general.minFluxForHealthBoost != 1)
+					event.player.addPotionEffect(new PotionEffect(MobEffects.HEALTH_BOOST, 200, 4));
+				if (currentFlux > NocturnalConfig.general.minFluxForHaste && NocturnalConfig.general.minFluxForHaste != 1)
+					event.player.addPotionEffect(new PotionEffect(MobEffects.HASTE, 200, 1));
+				if (currentFlux > NocturnalConfig.general.minFluxForSpeed && NocturnalConfig.general.minFluxForSpeed != 1)
+					event.player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 200, 1));
+				if (currentFlux > NocturnalConfig.general.minFluxForResistance && NocturnalConfig.general.minFluxForResistance != 1)
+					event.player.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 200, 1));
+				if (currentFlux > NocturnalConfig.general.minFluxForSaturation && NocturnalConfig.general.minFluxForSaturation != 1)
+					event.player.addPotionEffect(new PotionEffect(MobEffects.SATURATION, 200, 3));
+				if (currentFlux > NocturnalConfig.general.minFluxForBlindness && NocturnalConfig.general.minFluxForBlindness != 1)
+					event.player.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 200, 1));
+				if (currentFlux > NocturnalConfig.general.minFluxForSlowness && NocturnalConfig.general.minFluxForSlowness != 1)
+					event.player.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 200, 1));
+				if (currentFlux > NocturnalConfig.general.minFluxForWeakness && NocturnalConfig.general.minFluxForWeakness != 1)
+					event.player.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 200, 1));
+				if (currentFlux > NocturnalConfig.general.minFluxForNausea && NocturnalConfig.general.minFluxForNausea != 1)
+					event.player.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 200, 1));
+				if (currentFlux > NocturnalConfig.general.minFluxForPoison && NocturnalConfig.general.minFluxForPoison != 1)
+					event.player.addPotionEffect(new PotionEffect(MobEffects.POISON, 200, 1));
+				if (currentFlux > NocturnalConfig.general.minFluxForWither && NocturnalConfig.general.minFluxForWither != 1)
+					event.player.addPotionEffect(new PotionEffect(MobEffects.WITHER, 200, 1));
+			}
+		}
+		
 		
 
 		
