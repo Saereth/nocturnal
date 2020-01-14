@@ -68,3 +68,9 @@ processResources {
 	rename '(.+_at.cfg)', 'META-INF/$1'
 }
 
+jar {
+    manifest {
+        attributes 'FMLCorePlugin': 'com.breakinblocks.nocturnal.core.NocturnalCore'
+        attributes 'FMLCorePluginContainsFMLMod': 'true'
+    }
+}
