@@ -18,9 +18,9 @@ import java.util.function.Consumer;
 
 public class NocturnalTransformer implements IClassTransformer {
 
-	public static final ImmutableSet<NocturnalCoreModuleBase> transformerModules = ImmutableSet.of(
-			new Thaumcraft()
-	);
+	public static final ImmutableSet<NocturnalCoreModuleBase> transformerModules = ImmutableSet.<NocturnalCoreModuleBase>builder()
+			.add(new Thaumcraft())
+			.build();
 
 	public final ImmutableMultimap<String, Consumer<ClassNode>> transformers = collectTransformers();
 
@@ -31,7 +31,7 @@ public class NocturnalTransformer implements IClassTransformer {
 	 */
 	private ImmutableMultimap<String, Consumer<ClassNode>> collectTransformers() {
 		ImmutableMultimap.Builder<String, Consumer<ClassNode>> build = ImmutableMultimap.builder();
-		transformerModules.stream().forEach(module -> Arrays.stream(module.getClass().getDeclaredMethods())
+		transformerModules.forEach(module -> Arrays.stream(module.getClass().getDeclaredMethods())
 				.filter(m -> m.isAnnotationPresent(Transformer.class))
 				.forEach(m -> {
 					final Class<?>[] parameterTypes = m.getParameterTypes();

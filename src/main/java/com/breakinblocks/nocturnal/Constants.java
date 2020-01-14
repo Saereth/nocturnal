@@ -27,4 +27,8 @@ public class Constants {
 	            
 	}
 
+	public static class Deps {
+		public static final String THAUMCRAFT = "thaumcraft";
+	}
+
 }
