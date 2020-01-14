@@ -43,8 +43,10 @@ public class NocturnalTransformer implements IClassTransformer {
 						try {
 							NocturnalCore.log.info("Transforming " + className + " using " + m);
 							m.invoke(instance, classNode);
-						} catch (IllegalAccessException | InvocationTargetException e) {
-							throw new RuntimeException("Error transforming " + className + " using " + m, e);
+						} catch (IllegalAccessException e) {
+							throw new RuntimeException("Failed to invoke " + m, e);
+						} catch (InvocationTargetException e) {
+							throw new RuntimeException("Error transforming " + className + " using " + m, e.getTargetException());
 						}
 					};
 					build.put(className, transformer);
