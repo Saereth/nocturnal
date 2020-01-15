@@ -1,6 +1,7 @@
 package com.breakinblocks.nocturnal.core;
 
-import com.breakinblocks.nocturnal.core.modules.Thaumcraft;
+import com.breakinblocks.nocturnal.core.modules.MinecraftEntityAIFix;
+import com.breakinblocks.nocturnal.core.modules.ThaumcraftTaintedPlayerMob;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.launchwrapper.IClassTransformer;
@@ -19,7 +20,8 @@ import java.util.function.Consumer;
 public class NocturnalTransformer implements IClassTransformer {
 
 	public static final ImmutableSet<NocturnalCoreModuleBase> transformerModules = ImmutableSet.<NocturnalCoreModuleBase>builder()
-			.add(new Thaumcraft())
+			.add(new MinecraftEntityAIFix())
+			.add(new ThaumcraftTaintedPlayerMob())
 			.build();
 
 	public final ImmutableMultimap<String, Consumer<ClassNode>> transformers = collectTransformers();

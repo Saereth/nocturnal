@@ -70,6 +70,7 @@ processResources {
 
 jar {
     manifest {
+        attributes 'FMLAT': "nocturnal_at.cfg"
         attributes 'FMLCorePlugin': 'com.breakinblocks.nocturnal.core.NocturnalCore'
         attributes 'FMLCorePluginContainsFMLMod': 'true'
     }
