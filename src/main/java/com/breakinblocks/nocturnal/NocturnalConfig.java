@@ -78,7 +78,10 @@ public class NocturnalConfig {
 		public float minFluxForPoison = -1;			
 		
 		@Config.Comment({"Once the flux in the area exceeds this number the player will gain the wither buff default: 50 set to -1 to disable"})
-		public float minFluxForWither = -1;		
+		public float minFluxForWither = -1;
+
+		@Config.Comment({"Modify AI of tainted mobs to target non-tainted mobs and forgive recently tainted mobs"})
+		public boolean modifyAIOfTaintedMobs = true;
 	}
 
 	public enum Mode {

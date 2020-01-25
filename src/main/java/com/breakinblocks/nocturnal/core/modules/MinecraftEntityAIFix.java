@@ -29,6 +29,12 @@ public class MinecraftEntityAIFix extends NocturnalCoreModuleBase {
 	 */
 	@Transformer(transformedName = ENTITY_AI_TASKS)
 	public static void makeSureAITasksAreValid(ClassNode cn) {
+		if (!NocturnalCoreConfig.MinecraftEntityAIFix.makeSureAITasksAreValid) {
+			NocturnalCore.log.info("Skipping makeSureAITasksAreValid tweak");
+			return;
+		}
+		NocturnalCore.log.info("Applying makeSureAITasksAreValid tweak...");
+
 		final MethodNode mn = getMethodNode(cn,
 				OBFUSCATED ? "func_75774_a" : "onUpdateTasks", createMethodDescriptor("V"));
 		final AbstractInsnNode firstRealInstruction = Arrays.stream(mn.instructions.toArray())

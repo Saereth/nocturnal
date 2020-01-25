@@ -1,6 +1,7 @@
 package com.breakinblocks.nocturnal.util.entity;
 
 import com.breakinblocks.nocturnal.Constants;
+import com.breakinblocks.nocturnal.NocturnalConfig;
 import com.breakinblocks.nocturnal.entity.ai.EntityAIForgiveRecentlyTainted;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.entity.Entity;
@@ -71,6 +72,7 @@ public class TaintedMobHandler {
 
 	@SubscribeEvent
 	public static void checkForAIChange(LivingEvent.LivingUpdateEvent event) {
+		if (!NocturnalConfig.general.modifyAIOfTaintedMobs) return;
 		final EntityLivingBase livingBase = event.getEntityLiving();
 		if (!(livingBase instanceof EntityCreature)) return;
 		final EntityCreature creature = (EntityCreature) livingBase;

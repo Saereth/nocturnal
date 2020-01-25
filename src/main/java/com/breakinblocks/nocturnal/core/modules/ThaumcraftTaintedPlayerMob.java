@@ -20,6 +20,11 @@ public class ThaumcraftTaintedPlayerMob extends NocturnalCoreModuleBase {
 	 */
 	@Transformer(transformedName = NocturnalCoreConstants.ENTITY_PLAYER)
 	public void applyITaintedMobToEntityPlayer(ClassNode cn) {
+		if (!NocturnalCoreConfig.ThaumcraftTaintedPlayerMob.applyITaintedMobToEntityPlayer) {
+			NocturnalCore.log.info("Skipping applyITaintedMobToEntityPlayer tweak");
+			return;
+		}
+		NocturnalCore.log.info("Applying applyITaintedMobToEntityPlayer tweak...");
 		cn.interfaces.add(typeToPath(NocturnalCoreConstants.I_TAINTED_MOB));
 	}
 
@@ -29,6 +34,12 @@ public class ThaumcraftTaintedPlayerMob extends NocturnalCoreModuleBase {
 	 */
 	@Transformer(transformedName = NocturnalCoreConstants.ENTITY_TAINT_SWARM)
 	public void taintedSwarmFindPlayerToAttackHook(ClassNode cn) {
+		if (!NocturnalCoreConfig.ThaumcraftTaintedPlayerMob.taintedSwarmFindPlayerToAttackHook) {
+			NocturnalCore.log.info("Skipping taintedSwarmFindPlayerToAttackHook tweak");
+			return;
+		}
+		NocturnalCore.log.info("Applying taintedSwarmFindPlayerToAttackHook tweak...");
+
 		final MethodNode mn = getMethodNode(cn, "findPlayerToAttack", createMethodDescriptor(NocturnalCoreConstants.ENTITY));
 		// We insert this right before returning so we can modify the result as we please
 		final AbstractInsnNode insnAReturn = Arrays.stream(mn.instructions.toArray())
