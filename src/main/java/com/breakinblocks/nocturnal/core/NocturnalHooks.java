@@ -10,6 +10,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAITasks;
+import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraftforge.fml.common.Optional;
 import org.objectweb.asm.tree.ClassNode;
 import thaumcraft.common.entities.monster.tainted.EntityTaintSwarm;
@@ -38,6 +39,7 @@ public final class NocturnalHooks {
 	 * @return true if the target should be treated as a tainted mob
 	 * @see ThaumcraftTaintedPlayerMob#hookPotionFluxTaint(ClassNode)
 	 */
+	@Optional.Method(modid = Constants.Deps.THAUMCRAFT)
 	public static boolean potionFluxTaintIsTainted(EntityLivingBase target, int amplifier) {
 		return TaintedMobHandler.isTainted(target);
 	}
@@ -62,7 +64,7 @@ public final class NocturnalHooks {
 		double dsq = d * d;
 		return swarm.world.getEntitiesWithinAABB(EntityLivingBase.class,
 				swarm.getEntityBoundingBox().grow(d, d, d),
-				(t) -> !TaintedMobHandler.isTainted(t)
+				(t) -> !TaintedMobHandler.isTainted(t) && !(t instanceof EntityCreeper)
 		).stream()
 				.map((t) -> new DistanceEntity<>(t.getDistanceSq(swarm), t))
 				.filter((de) -> de.dist <= dsq)
