@@ -76,10 +76,10 @@ public class NocturnalCoreConfig {
 
 	@Category
 	public static class ThaumcraftTaintedPlayerMob {
-		@Config("Apply the ITaintedMob interface to EntityPlayer so that most tainted mobs are passive to the player")
-		public static boolean applyITaintedMobToEntityPlayer = true;
-
 		@Config("Modify Tainted Swarm targeting to target non-tained mobs rather than players only")
 		public static boolean taintedSwarmFindPlayerToAttackHook = true;
+
+		@Config("Modify PotionFluxTaint to better check for tainted mob status")
+		public static boolean hookPotionFluxTaint = true;
 	}
 }

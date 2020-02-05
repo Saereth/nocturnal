@@ -12,6 +12,9 @@ public class NocturnalConfig {
 	@Config.Comment({"General Options"})
 	public static ConfigGeneral    general    = new ConfigGeneral();
 
+	@Config.Comment({"Tainted Mob Options"})
+	public static ConfigTainted tainted = new ConfigTainted();
+
 	@SubscribeEvent
 	public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
 		System.out.println("Syncing Nocturnal Config");
@@ -79,9 +82,14 @@ public class NocturnalConfig {
 		
 		@Config.Comment({"Once the flux in the area exceeds this number the player will gain the wither buff default: 50 set to -1 to disable"})
 		public float minFluxForWither = -1;
+	}
 
+	public static class ConfigTainted {
 		@Config.Comment({"Modify AI of tainted mobs to target non-tainted mobs and forgive recently tainted mobs"})
 		public boolean modifyAIOfTaintedMobs = true;
+
+		@Config.Comment({"Treat player as tainted mob (has no effect if modifyAIOfTaintedMobs is not true)"})
+		public boolean playerIsTaintedMob = true;
 	}
 
 	public enum Mode {

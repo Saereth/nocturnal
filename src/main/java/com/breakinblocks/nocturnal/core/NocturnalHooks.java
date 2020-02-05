@@ -2,6 +2,7 @@ package com.breakinblocks.nocturnal.core;
 
 import com.breakinblocks.nocturnal.Constants;
 import com.breakinblocks.nocturnal.core.modules.MinecraftEntityAIFix;
+import com.breakinblocks.nocturnal.core.modules.ThaumcraftTaintedPlayerMob;
 import com.breakinblocks.nocturnal.util.entity.DistanceEntity;
 import com.breakinblocks.nocturnal.util.entity.TaintedMobHandler;
 import com.google.common.collect.ImmutableSet;
@@ -10,13 +11,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraftforge.fml.common.Optional;
+import org.objectweb.asm.tree.ClassNode;
 import thaumcraft.common.entities.monster.tainted.EntityTaintSwarm;
 
 public final class NocturnalHooks {
 	/**
 	 * Check and fix EntityAITasks
 	 *
-	 * @see MinecraftEntityAIFix#makeSureAITasksAreValid(org.objectweb.asm.tree.ClassNode)
+	 * @see MinecraftEntityAIFix#makeSureAITasksAreValid(ClassNode)
 	 */
 	public static void checkAndFixEntityAITasks(EntityAITasks tasks) {
 		ImmutableSet<EntityAITasks.EntityAITaskEntry> toRemove = ImmutableSet
@@ -31,12 +33,23 @@ public final class NocturnalHooks {
 	}
 
 	/**
+	 * Make it so the FluxTaint potion uses our isTainted check
+	 *
+	 * @return true if the target should be treated as a tainted mob
+	 * @see ThaumcraftTaintedPlayerMob#hookPotionFluxTaint(ClassNode)
+	 */
+	public static boolean potionFluxTaintIsTainted(EntityLivingBase target, int amplifier) {
+		return TaintedMobHandler.isTainted(target);
+	}
+
+	/**
 	 * When a taint swarm doesn't have a target, this hook will intercept the call to find a new one.
 	 * We could even use this to make it find a different target to attack if we wanted to.
 	 *
 	 * @param target Can be null, or typically a player.
 	 * @param swarm  Swarm that is currently searching.
 	 * @return Make sure it's a {@link EntityLivingBase} because it is casted to it.
+	 * @see ThaumcraftTaintedPlayerMob#taintedSwarmFindPlayerToAttackHook(ClassNode)
 	 */
 	@Optional.Method(modid = Constants.Deps.THAUMCRAFT)
 	public static Entity taintSwarmFindPlayer(Entity target, EntityTaintSwarm swarm) {

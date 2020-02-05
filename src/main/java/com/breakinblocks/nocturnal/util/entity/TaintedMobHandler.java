@@ -8,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -16,6 +17,7 @@ import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -46,6 +48,7 @@ public class TaintedMobHandler {
 	public static boolean isTainted(Entity entity) {
 		if (!(entity instanceof EntityLivingBase)) return false;
 		if (entity instanceof ITaintedMob) return true;
+		if (NocturnalConfig.tainted.playerIsTaintedMob && entity instanceof EntityPlayer) return true;
 		final EntityLivingBase living = (EntityLivingBase) entity;
 		IAttributeInstance attrInstChampion = living.getEntityAttribute(THAUMCRAFT_CHAMPION_ATTRIBUTE);
 		//noinspection ConstantConditions
@@ -72,10 +75,11 @@ public class TaintedMobHandler {
 
 	@SubscribeEvent
 	public static void checkForAIChange(LivingEvent.LivingUpdateEvent event) {
-		if (!NocturnalConfig.general.modifyAIOfTaintedMobs) return;
+		if (!NocturnalConfig.tainted.modifyAIOfTaintedMobs) return;
 		final EntityLivingBase livingBase = event.getEntityLiving();
 		if (!(livingBase instanceof EntityCreature)) return;
 		final EntityCreature creature = (EntityCreature) livingBase;
+		// Only modify AI of tainted creatures
 		if (!isTainted(creature)) return;
 		// Check that our AI changes haven't been applied yet
 		final IAttributeInstance attrNocAiChanged = creature.getEntityAttribute(NOCTURNAL_TAINTED_AI_ATTRIBUTE);
@@ -131,7 +135,9 @@ public class TaintedMobHandler {
 	 */
 	public static EntityAIBase modifyTaintedAIAction(EntityCreature creature, EntityAIBase action) {
 		// TODO: Find things that don't work with this?
-		if (action instanceof EntityAINearestAttackableTarget) {
+		if (action instanceof EntityAIHurtByTarget) {
+			return new EntityAIHurtByTarget(creature, true);
+		} else if (action instanceof EntityAINearestAttackableTarget) {
 			return new EntityAINearestAttackableTarget<>(
 					creature, EntityLivingBase.class, 0, false, false,
 					t -> !isTainted(t) && !(t instanceof EntityCreeper)
